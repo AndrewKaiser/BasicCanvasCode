@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:math';
 import 'animation.dart';
+import 'mouse.dart';
 
 
 class Ball {
@@ -9,10 +10,15 @@ class Ball {
   final num speed = 5;
   Point pos;
   num bodySize;
+  bool controlled = false;
+  Mouse mouse;
   
-  Ball(this.screen, this.color, this.bodySize);
+  Ball(this.screen, this.color, this.bodySize, this.pos, this.mouse);
   
-  draw(CanvasRenderingContext2D context, Point pos) {
+  draw(CanvasRenderingContext2D context) {
+    if (controlled) {
+      pos = mouse.pos;
+    }
     context..lineWidth = 0.5
            ..fillStyle = color
            ..strokeStyle = color;

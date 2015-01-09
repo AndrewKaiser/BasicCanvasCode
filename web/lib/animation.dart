@@ -20,7 +20,8 @@ class Animation {
   num mouseX = 0;
   num mouseY = 0;
   
-  Ball ball;
+  final List<Ball> balls = <Ball>[];
+
   num renderTime;
   Mouse mouse;
 
@@ -30,11 +31,19 @@ class Animation {
     Rectangle rect = canvas.parent.client;
     width = rect.width;
     height = rect.height;
-    
-    var temp = new Ball(this, "red", 30);
-    ball = temp;
-    
     mouse = new Mouse(canvas, new Point(0,0));
+    var red = new Ball(this, "red", 30, new Point(100,100), mouse);
+    var blue = new Ball(this, "blue", 30, new Point(300,300), mouse);
+    var green = new Ball(this, "green", 30, new Point(200,400), mouse);
+    var yellow = new Ball(this, "yellow", 30, new Point(width/2,height/2), mouse);
+    
+    balls.add(red);
+    balls.add(blue);
+    balls.add(green);
+    balls.add(yellow);
+//    ball = new Ball(this, "red", 30, new Point(width/2,height/2), mouse);
+    
+    canvas.onMouseDown.listen(checkMouseOver);
     requestRedraw();
   }
 
@@ -53,9 +62,23 @@ class Animation {
     context.clearRect(0, 0, width, height);
   }
   drawBall(CanvasRenderingContext2D context) {
-    mouseX = mouse.pos.x;
-    mouseY = mouse.pos.y;
-    ball.draw(context, new Point(mouseX, mouseY));
+    
+  for(var i=0; i<balls.length; ++i) {
+    if (!mouse.down) balls[i].controlled = false;
+      balls[i].draw(context);
+    }
+  }
+  void checkMouseOver(MouseEvent event) {
+    for(var ball in balls) {
+      var distance = mouse.pos.distanceTo(ball.pos);
+      if (!mouse.down) ball.controlled = false;
+      if (mouse.myBall == ball.color) ball.controlled = true;
+      else if (mouse.myBall == '' && distance <= ball.bodySize){
+          mouse.controlBall(ball);
+          ball.controlled = true;
+      }
+      else ball.controlled = false;
+    }
   }
   void requestRedraw() {
     window.requestAnimationFrame(draw);
