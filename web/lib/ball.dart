@@ -8,6 +8,8 @@ class Ball {
   final String color;
   final Animation screen;
   final num speed = 5;
+  var dx = 5;
+  var dy = 1;
   Point pos;
   num bodySize;
   bool controlled = false;
@@ -15,6 +17,12 @@ class Ball {
   
   Ball(this.screen, this.color, this.bodySize, this.pos, this.mouse);
   
+  move() {
+    if (controlled) return;
+    pos = new Point(pos.x + dx, pos.y + dy);
+    if (screen.canvas.width == pos.x+bodySize ||pos.x-bodySize == 0) dx *= -1;
+    if (screen.canvas.height == pos.y+bodySize || pos.y-bodySize == 0) dy *= -1;
+  }
   draw(CanvasRenderingContext2D context) {
     if (controlled) {
       pos = mouse.pos;

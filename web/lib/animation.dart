@@ -35,7 +35,7 @@ class Animation {
     var red = new Ball(this, "red", 30, new Point(100,100), mouse);
     var blue = new Ball(this, "blue", 30, new Point(300,300), mouse);
     var green = new Ball(this, "green", 30, new Point(200,400), mouse);
-    var yellow = new Ball(this, "yellow", 30, new Point(width/2,height/2), mouse);
+    var yellow = new Ball(this, "yellow", 30, new Point(500,200), mouse);
     
     balls.add(red);
     balls.add(blue);
@@ -46,22 +46,27 @@ class Animation {
     canvas.onMouseDown.listen(checkMouseOver);
     requestRedraw();
   }
-
-  draw([_]) {
+  void move() {
+    for (var ball in balls) {
+      ball.move();
+    }
+  }
+  void draw([_]) {
     num time = new DateTime.now().millisecondsSinceEpoch;
        if (renderTime != null) showFps(1000 / (time - renderTime));
        renderTime = time;
        
     var context = canvas.context2D;
+    move();
     drawBackground(context);
     drawBall(context);
     
     requestRedraw();
   }
-  drawBackground(CanvasRenderingContext2D context) {
+  void drawBackground(CanvasRenderingContext2D context) {
     context.clearRect(0, 0, width, height);
   }
-  drawBall(CanvasRenderingContext2D context) {
+  void drawBall(CanvasRenderingContext2D context) {
     
   for(var i=0; i<balls.length; ++i) {
     if (!mouse.down) balls[i].controlled = false;
