@@ -20,11 +20,13 @@ class Ball {
   move() {
     if (controlled) return;
     pos = new Point(pos.x + dx, pos.y + dy);
-    if (screen.canvas.width == pos.x+bodySize ||pos.x-bodySize == 0) dx *= -1;
+    if (screen.canvas.width == pos.x+bodySize || pos.x-bodySize == 0) dx *= -1;
     if (screen.canvas.height == pos.y+bodySize || pos.y-bodySize == 0) dy *= -1;
   }
   draw(CanvasRenderingContext2D context) {
     if (controlled) {
+      dx = -(pos.x - mouse.pos.x);
+      dy = -(pos.y - mouse.pos.y);
       pos = mouse.pos;
     }
     context..lineWidth = 0.5

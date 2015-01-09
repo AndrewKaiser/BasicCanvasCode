@@ -33,9 +33,9 @@ class Animation {
     height = rect.height;
     mouse = new Mouse(canvas, new Point(0,0));
     var red = new Ball(this, "red", 30, new Point(100,100), mouse);
-    var blue = new Ball(this, "blue", 30, new Point(300,300), mouse);
-    var green = new Ball(this, "green", 30, new Point(200,400), mouse);
-    var yellow = new Ball(this, "yellow", 30, new Point(500,200), mouse);
+    var blue = new Ball(this, "blue", 10, new Point(300,300), mouse);
+    var green = new Ball(this, "green", 40, new Point(200,400), mouse);
+    var yellow = new Ball(this, "yellow", 90, new Point(500,200), mouse);
     
     balls.add(red);
     balls.add(blue);
